@@ -1,0 +1,35 @@
+body {
+    background-color: #F0F0F8;
+}
+
+.control_panel {
+    position: fixed;
+    background-color: #B8E1D9;
+    width: 98.5%;
+    height: 10%;
+    border: 2px solid #2D554A;
+}
+
+.buttons {
+    margin-left: 1%;
+    margin-top: 0.3%;
+    width: 7%;
+    height: 90%;
+    background-color: #237C6C;
+    font-size: 100%;
+    word-wrap: break-word;
+    border: none;
+    color: #5EBAA6;
+    -webkit-text-stroke: 0.3px #FFFFFF;
+}
+
+#add_button {
+    float: right;
+    width: 7%;
+    height: 90%;
+    margin: 0.3%;
+    font-size: 250%;
+    background-color: #5EBAA6;
+    color: #237C6C;
+    border: none;
+}
