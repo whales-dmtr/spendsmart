@@ -34,6 +34,36 @@ body {
     border: none;
 }
 
+.meta_info {
+    /* background-color: blue; */
+    position: absolute;
+    top: 12%;
+    width: 100%;
+    height: 5%;
+    color: #A0A0A0;
+    font-size: 25px;
+}
+
+.meta_name {
+    position: absolute;
+    left: 20%;
+}
+
+.meta_time {
+    position: absolute;
+    left: 47%;
+}
+
+.meta_cat {
+    position: absolute;
+    left: 64%;
+}
+
+.meta_info div {
+    display: inline-block;
+    top: -10%;
+}
+
 .spends {
     position: absolute;
     top: 15%;
