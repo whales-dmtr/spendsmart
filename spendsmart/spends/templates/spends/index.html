@@ -6,11 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Your spends</title>
-    <link type="text/css" href="{% static 'spends/style.css' %}" rel="stylesheet">
+    <link type="text/css" href="{% static 'spends/css/style.css' %}" rel="stylesheet">
 </head>
 
 <body>
     <div class="control_panel">
+        <button class="buttons" id="prof_block"><img src="{% static 'spends/images/profile_icon.png' %}" width="70%"
+                height="95%" id="prof_btn"></button>
         <button class="buttons">Show categories</button>
         <button class="buttons">Sort by categories</button>
         <button id="add_button">+</button>

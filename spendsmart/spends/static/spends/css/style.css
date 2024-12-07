@@ -9,11 +9,16 @@ body {
     width: 98.5%;
     height: 10%;
     border: 2px solid #2D554A;
+    display: flex;
+    /* Flexbox для выравнивания */
+    justify-content: flex-start;
+    /* Выравнивание кнопок по левому краю */
+    align-items: center;
+    /* Вертикальное выравнивание */
 }
 
 .buttons {
     margin-left: 1%;
-    margin-top: 0.3%;
     width: 7%;
     height: 90%;
     background-color: #237C6C;
@@ -22,13 +27,50 @@ body {
     border: none;
     color: #5EBAA6;
     -webkit-text-stroke: 0.3px #FFFFFF;
+    display: flex;
+    /* Центрируем текст внутри кнопки */
+    align-items: center;
+    justify-content: center;
 }
 
+#prof_block {
+    position: relative;
+    /* Для псевдоэлемента */
+    padding-right: 10px;
+    /* Отступ справа для кнопки */
+    background-color: #B8E1D9;
+}
+
+/* Псевдоэлемент для линии */
+#prof_block::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    /* Размещение линии справа */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    /* Ширина линии */
+    background-color: #2D554A;
+    /* Цвет линии */
+    margin-right: 10px;
+    /* Отступ между кнопкой и линией */
+}
+
+#prof_btn {
+    background-color: #5EBAA6;
+    padding: 5px;
+    border-radius: 10%;
+}
+
+/* Кнопка "+" с правой стороны */
 #add_button {
-    float: right;
+    margin-left: auto;
+    /* Автоматический отступ слева для перемещения в правую часть */
+    margin-right: 2%;
+    /* Отступ справа */
     width: 7%;
     height: 90%;
-    margin: 0.3%;
     font-size: 250%;
     background-color: #5EBAA6;
     color: #237C6C;
@@ -58,7 +100,6 @@ body {
 .spends {
     position: absolute;
     top: 17%;
-    /* Reduced from 25% to bring it closer to the control panel */
     left: 1%;
     right: 1%;
 }
