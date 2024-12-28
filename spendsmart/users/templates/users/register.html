@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Register</title>
+		<link rel="stylesheet" type="text/css" href="{% static 'users/css/register.css' %}">
+	</head>
+	<body>
+		<h2>Register</h2>
+		<form action="{% url 'register' %}" method="post">
+			{% csrf_token %}
+
+			{% for field in register_form %}
+			<label>Enter {{ field.label|lower }}: </label> <br>
+			{{ field }}
+			<br><br>
+			{% endfor %}
+
+			<input type="submit" class="input_field" id="submit_inp" value="Submit">
+			<br><br>
+
+		</form>
+		<form>
+			<label for="login_redirect_btn">Do you already have an account?</label>
+			<button formaction="{% url 'login' %}" id="login_redirect_btn">Go to login page</button>
+		</form> 
+	</body>
+</html>
+
+
+
+
+
+
+

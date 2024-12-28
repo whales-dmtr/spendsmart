@@ -6,64 +6,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Your spends</title>
-    <link type="text/css" href="{% static 'spends/css/style.css' %}" rel="stylesheet">
+	<link type="text/css" href="{% static 'spends/css/index.css' %}" rel="stylesheet">
 </head>
 
 <body>
     <div class="control_panel">
-        <button class="buttons" id="prof_block"><img src="{% static 'spends/images/profile_icon.png' %}" width="70%"
-                height="95%" id="prof_btn"></button>
-        <button class="buttons">Show categories</button>
-        <button class="buttons">Sort by categories</button>
-        <button id="add_button">+</button>
+        <form id="prof_form" class="button_form">
+				<button formaction="{% url 'login' %}">
+                <img src="{% static 'spends/images/profile_icon.png' %}" id="prof_img">
+            </button>
+        </form>
+		<form id="showcat_form" class="button_form">
+			<button class="buttons"	formaction="">
+				Show categories
+			</button>
+		</form>
+		<form id="sortcat_form" class="button_form">
+        	<button class="buttons">
+					Sort by categories
+			</button>
+		</form>
+        <form id="add_form" class="button_form">
+            <button class="buttons" id="add_button" formaction="{% url 'form_add_spend' %}">
+					Add spend
+			</button>
+        </form>
     </div>
     <div class="spends">
-        <div class="meta_info">
-            <div class="meta_name">Description</div>
-            <div class="meta_amount">Amount</div>
-            <div class="meta_time">Time</div>
-            <div class="meta_cat">Category</div>
-        </div>
-        <div class="spend">
-            <div class="spend_text_block">
-                <p>Buy some groceries</p>
-            </div>
-            <div class="spend_amount_block">
-                <p>300UAH</p>
-            </div>
-            <div class="spend_time_block">
-                <p>10:00 27.11.2024</p>
-            </div>
-            <div class="spend_category_block">
-                <a class="spend_category">Food</a>
-            </div>
-            <div class="edit_btn_block">
-                <button class="edit_btn">Edit</button>
-            </div>
-            <div class="remove_btn_block">
-                <button class="remove_btn">Remove</button>
-            </div>
-        </div>
-        <div class="spend">
-            <div class="spend_text_block">
-                <p>Dance camp</p>
-            </div>
-            <div class="spend_amount_block">
-                <p>300UAH</p>
-            </div>
-            <div class="spend_time_block">
-                <p>20:35 30.11.2024</p>
-            </div>
-            <div class="spend_category_block">
-                <a class="spend_category">Sport</a>
-            </div>
-            <div class="edit_btn_block">
-                <button class="edit_btn">Edit</button>
-            </div>
-            <div class="remove_btn_block">
-                <button class="remove_btn">Remove</button>
-            </div>
-        </div>
+		<table class="spend_table">
+			<tr>
+				<th>Description</th>
+				<th>Amount</th>
+				<th>Date</th>
+				<th>Category</th>
+				<th>Actions</th>
+			</tr>
+			{% for spend in all_spends %}
+			<tr>
+				<td>{{ spend.desc }}</td>	
+				<td>{{ spend.amount }}</td>	
+				<td>{{ spend.date }}</td>	
+				<td>{{ spend.category }}</td>	
+				<td>
+					<form action="">
+						<input type="submit" value="Edit">
+					</form>
+					<form action="">
+						<input type="submit" value="Delete">
+					</form>
+				</td>	
+			</tr>
+			{% endfor %}
+		</table>		
     </div>
     </div>
 </body>

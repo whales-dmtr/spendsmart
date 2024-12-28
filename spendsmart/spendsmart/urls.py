@@ -19,7 +19,9 @@ from django.urls import include, path
 from spends.views import view_all_spends
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', include('spends.urls')),
     path('spends/', include('spends.urls')),
+    path('admin/', admin.site.urls),
+    path('users/', include('users.urls')),
 ]
  
