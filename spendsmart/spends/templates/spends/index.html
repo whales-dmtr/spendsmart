@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your spends</title>
+	<link type="text/css" href="{% static 'spends/css/index.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="control_panel">
+        <form id="prof_form" class="button_form">
+				<button formaction="{% url 'login' %}">
+                <img src="{% static 'spends/images/profile_icon.png' %}" id="prof_img">
+            </button>
+        </form>
+		<form id="showcat_form" class="button_form">
+			<button class="buttons"	formaction="">
+				Show categories
+			</button>
+		</form>
+		<form id="sortcat_form" class="button_form">
+        	<button class="buttons">
+					Sort by categories
+			</button>
+		</form>
+        <form id="add_form" class="button_form">
+            <button class="buttons" id="add_button" formaction="{% url 'form_add_spend' %}">
+					Add spend
+			</button>
+        </form>
+    </div>
+    <div class="spends">
+		<table class="spend_table">
+			<tr>
+				<th>Description</th>
+				<th>Amount</th>
+				<th>Date</th>
+				<th>Category</th>
+				<th>Actions</th>
+			</tr>
+			{% for spend in all_spends %}
+			<tr>
+				<td>{{ spend.desc }}</td>	
+				<td>{{ spend.amount }}</td>	
+				<td>{{ spend.date }}</td>	
+				<td>{{ spend.category }}</td>	
+				<td>
+					<form action="">
+						<input type="submit" value="Edit">
+					</form>
+					<form action="">
+						<input type="submit" value="Delete">
+					</form>
+				</td>	
+			</tr>
+			{% endfor %}
+		</table>		
+    </div>
+    </div>
+</body>
+
+</html>
