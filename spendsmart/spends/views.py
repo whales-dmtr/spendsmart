@@ -5,7 +5,8 @@ from .models import Spends, Categories
 from .forms import AddSpendForm
 
 def view_all_spends(HttpRequest):
-    HttpRequest.session['logged_in'] = False
+    HttpRequest.session['is_logged_in'] = False
+    print(HttpRequest.session['is_logged_in'])
     return render(HttpRequest, 'spends/index.html', {'all_spends': Spends.objects.all()})
 
 

@@ -3,7 +3,8 @@
 	width: 50%;
 }
 
-.spend_table th, td{
+.spend_table th,
+td {
 	border: 1px solid black;
 	padding: 3px;
 	text-align: center;
@@ -30,8 +31,6 @@
 	height: 50px;
 }
 
-
-
-
-
-
+body {
+	font-size: 120%;
+}
