@@ -16,10 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from spends.views import view_all_spends
 
 urlpatterns = [
-    path('', include('spends.urls')),
+    path('', include('users.urls')),
     path('spends/', include('spends.urls')),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),

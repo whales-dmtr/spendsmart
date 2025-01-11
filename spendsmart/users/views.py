@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
-from .forms import LoginForm, RegisterForm, EditFieldForm
+from .forms import (EmailEditForm, LoginForm, RegisterForm, EditFieldForm, PasswordEditForm, 
+                    BirthdayEditForm, DescEditForm)
 from .models import Users, Profile
 
 
@@ -29,12 +30,24 @@ def login(request):
             return redirect('profile')
         else: 
             login_form = LoginForm() 
-            return render(request, 'users/login.html', {'login_form': login_form, 
-                                                        'message': 'You entered incorrect username or password :('})
+            return render(
+                request=request, 
+                template_name='users/login.html', 
+                context={
+                    'login_form': login_form,                       
+                    'message': 'You entered incorrect username or password :('
+                }
+            )
+        
     elif request.method == 'GET':
         login_form = LoginForm() 
-        return render(request, 'users/login.html', 
-                      context={'login_form': login_form})
+        return render(
+            request=request, 
+            template_name='users/login.html',         
+            context={
+                'login_form': login_form                  
+            }
+        )
 
 
 def register(request):
@@ -56,7 +69,13 @@ def register(request):
         return redirect('main')
     elif request.method == 'GET':
         register_form = RegisterForm() 
-        return render(request, 'users/register.html', {'register_form': register_form})
+        return render(
+            request=request, 
+            template_name='users/register.html', 
+            context={
+                'register_form': register_form
+            }
+        )
 
 
 def get_profile_data(request):
@@ -64,16 +83,18 @@ def get_profile_data(request):
     profile = Profile.objects.get(user_id=user.id)
 
     fields_data = [
-        ['Username', user.name, 'name'],  # label, data info, key for edit
-        ['Password', user.password, 'password'],
-        ['First name', profile.first_name, 'first_name'],
-        ['Last name', profile.last_name, 'last_name'],
-        ['Birthday', profile.birthday_date, 'birthday'],
-        ['About you', profile.desc, 'desc'],
+        # label, data, key for edit, max length
+        ['Username', user.name, 'name', 15],  
+        ['Password', user.password, 'password', 20],
+        ['Email', user.email, 'email', 254],
+        ['First name', profile.first_name, 'first_name', 25],
+        ['Last name', profile.last_name, 'last_name', 30],
+        ['Birthday', profile.birthday_date, 'birthday', None],
+        ['About you', profile.desc, 'desc', 200],
     ]
 
     idx = 0
-    for label, data, key_edit in fields_data:
+    for label, data, key_edit, max_len in fields_data:
         if data is None:
             fields_data[idx][1] = '-'
         elif key_edit == 'password':
@@ -82,7 +103,8 @@ def get_profile_data(request):
 
     context = {
         'fields_data': fields_data, 
-        'welcome_name': profile.first_name if profile.first_name is not None else user.name,
+        'welcome_name': (profile.first_name if profile.first_name is not None 
+                         else user.name),
     }
 
     return context
@@ -96,10 +118,32 @@ def profile(request):
         else:
             return redirect('login')
     elif request.method == 'POST':
-        edit_form = EditFieldForm()
         profile_data = get_profile_data(request)
         edited_field = request.POST['edit_field']
-        return render(request, 'users/profile.html', context={'edit_form': edit_form, **profile_data, 'edited_field': edited_field})
+
+        if edited_field == 'password':
+            edit_form = PasswordEditForm()
+        elif edited_field == 'email':
+            edit_form = EmailEditForm()
+        elif edited_field == 'birthday':
+            edit_form = BirthdayEditForm()
+        elif edited_field == 'desc':
+            edit_form = DescEditForm()
+        else:
+            # Choose specific length and hint
+            for label, form, idx, max_len in profile_data['fields_data']:
+                if idx == edited_field:
+                    edit_form = EditFieldForm(max_len=max_len, hint=label)
+
+        return render(
+            request=request, 
+            template_name='users/profile.html', 
+            context={
+                'edit_form': edit_form, 
+                **profile_data, 
+                'edited_field': edited_field
+            }
+        )
     
 
 def edit_profile(request):
@@ -110,7 +154,15 @@ def edit_profile(request):
             user.save()
         elif request.POST['name'] == 'password':
             user = Users.objects.get(id=request.session['user_id'])
-            setattr(user, request.POST['name'], make_password(request.POST['field']))
+            setattr(
+                user, request.POST['name'], 
+                make_password(request.POST['field'])
+            )
+        elif request.POST['name'] == 'birthday':
+            profile = Profile.objects.get(user_id=request.session['user_id'])
+            birthday_date = f'{request.POST['field_year']}-{request.POST['field_month']}-{request.POST['field_day']}'
+            setattr(profile, f"{request.POST['name']}_date", birthday_date)
+            profile.save()
         else:
             profile = Profile.objects.get(user_id=request.session['user_id'])
             setattr(profile, request.POST['name'], request.POST['field'])
