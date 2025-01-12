@@ -103,7 +103,7 @@ def get_profile_data(request):
 
     context = {
         'fields_data': fields_data, 
-        'welcome_name': (profile.first_name if profile.first_name is not None 
+        'welcome_name': (profile.first_name if profile.first_name != ''
                          else user.name),
     }
 
@@ -148,27 +148,30 @@ def profile(request):
 
 def edit_profile(request):
     if request.method == 'POST':
-        if request.POST['name'] == 'name':
-            user = Users.objects.get(id=request.session['user_id'])
-            setattr(user, request.POST['name'], request.POST['field'])
-            user.save()
-        elif request.POST['name'] == 'password':
-            user = Users.objects.get(id=request.session['user_id'])
-            setattr(
-                user, request.POST['name'], 
-                make_password(request.POST['field'])
-            )
-        elif request.POST['name'] == 'birthday':
-            profile = Profile.objects.get(user_id=request.session['user_id'])
-            birthday_date = f'{request.POST['field_year']}-{request.POST['field_month']}-{request.POST['field_day']}'
-            setattr(profile, f"{request.POST['name']}_date", birthday_date)
-            profile.save()
-        else:
-            profile = Profile.objects.get(user_id=request.session['user_id'])
-            setattr(profile, request.POST['name'], request.POST['field'])
-            profile.save()
-            
-        return redirect('profile')
+        if request.POST['type'] == 'save':
+            if request.POST['name'] == 'name':
+                user = Users.objects.get(id=request.session['user_id'])
+                setattr(user, request.POST['name'], request.POST['field'])
+                user.save()
+            elif request.POST['name'] == 'password':
+                user = Users.objects.get(id=request.session['user_id'])
+                setattr(
+                    user, request.POST['name'], 
+                    make_password(request.POST['field'])
+                )
+            elif request.POST['name'] == 'birthday':
+                profile = Profile.objects.get(user_id=request.session['user_id'])
+                birthday_date = f'{request.POST['field_year']}-{request.POST['field_month']}-{request.POST['field_day']}'
+                setattr(profile, f"{request.POST['name']}_date", birthday_date)
+                profile.save()
+            else:
+                profile = Profile.objects.get(user_id=request.session['user_id'])
+                setattr(profile, request.POST['name'], request.POST['field'])
+                profile.save()
+                
+            return redirect('profile')
+        elif request.POST['type'] == 'esc':
+            return redirect('profile')
 
 
 def logout(request):

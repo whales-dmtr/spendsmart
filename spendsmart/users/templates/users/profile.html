@@ -21,7 +21,8 @@
         {{ edit_form.field }}
         {% csrf_token %}
         <input type="hidden" name="name" value="{{ field.2 }}" autofocus>
-        <input type="submit" value="Save" class="button" class="content">
+        <button type="submit" name="type" value="save" class="button">Save</button>
+        <button formnovalidate type="submit" name="type" value="esc" class="button">Esc</button>
     </form>
 </div>
 {% elif field.2 == 'desc' %}
