@@ -1,0 +1,4 @@
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button class="button" class="content" type="submit" name="type" value="homepage">Go to the homepage</button>
+</form>

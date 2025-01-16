@@ -58,14 +58,9 @@ class BirthdayEditForm(forms.Form):
 
 
 class DescEditForm(EditFieldForm):
-    def __init__(self):
+    def __init__(self, hint=None):
         super().__init__(hint='About you')
-
+        if hint != None:
+            self.fields['field'].initial = hint
     field = forms.CharField(max_length=200, widget=forms.Textarea)
 
-
-# class EditFieldForm(forms.Form):
-#     def __init__(self, max_len):
-#         super().__init__()
- 
-#     field = forms.CharField(max_length=max_length)

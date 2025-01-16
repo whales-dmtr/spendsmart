@@ -27,7 +27,7 @@ def login(request):
 
         if is_valid(username, password):
             request.session['user_id'] = Users.objects.get(name=username).id
-            return redirect('profile')
+            return redirect('main')
         else: 
             login_form = LoginForm() 
             return render(
@@ -128,7 +128,7 @@ def profile(request):
         elif edited_field == 'birthday':
             edit_form = BirthdayEditForm()
         elif edited_field == 'desc':
-            edit_form = DescEditForm()
+            edit_form = DescEditForm(profile_data['fields_data'][-1][1])
         else:
             # Choose specific length and hint
             for label, form, idx, max_len in profile_data['fields_data']:
@@ -172,11 +172,21 @@ def edit_profile(request):
             return redirect('profile')
         elif request.POST['type'] == 'esc':
             return redirect('profile')
+    else:
+        return redirect('login')
 
 
 def logout(request):
-    del request.session['user_id']
-    return redirect('main')
+    if request.method == 'POST':
+        if request.POST['type'] == 'logout':
+            del request.session['user_id']
+            return redirect('main')
+        elif request.POST['type'] == 'homepage':
+            return redirect('main')
+    else:
+        return redirect('login')
+
+        
 
 
 

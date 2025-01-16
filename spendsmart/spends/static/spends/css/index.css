@@ -15,22 +15,25 @@ td {
 	height: 50px;
 }
 
-.control_panel {
-	position: relative;
-	width: 50%;
-	height: 20%;
-	margin-bottom: 3%;
-}
-
-.button_form {
-	display: inline-block;
-	vertical-align: middle;
-}
-
 .buttons {
 	height: 50px;
 }
 
 body {
 	font-size: 120%;
+}
+
+.control_panel {
+	position: relative;
+	width: 50%;
+	height: 20%;
+	margin-bottom: 3%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.buttons_form {
+	display: flex;
+	gap: 10px;
 }

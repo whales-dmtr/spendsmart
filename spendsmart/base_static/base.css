@@ -7,16 +7,5 @@
 */
 
 body {
-    background-color: #D5B9B2;
-    color: #582C4D;
-    font-size: 120%;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-.button {
-    width: 5%;
-    padding: 3px;
-    border: none;
-    background-color: #A26769;
-    color: #ECE2D0
 }

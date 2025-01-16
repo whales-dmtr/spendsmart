@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Create category</title>
+{% endblock %}
+
+{% block links %}
+<link type="text/css" href="{% static 'spends/css/create_category.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<h2>Create category</h2>
+<form action="{% url 'create_category' %}" method="post">
+    {% csrf_token %}
+
+    {% for field in view_form %}
+    <label>Enter {{ field.label|lower }}: </label> <br>
+    {{ field }}
+    <br><br>
+    {% endfor %}
+
+    <button type="submit">Submit</button>
+</form>
+
+<br>
+{% include 'spends/homepage_ref.html' %}
+
+{% endblock %}

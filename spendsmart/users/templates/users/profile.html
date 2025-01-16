@@ -46,8 +46,12 @@
 {% endif %}
 {% endfor %}
 <br><br>
-<form action="{% url 'logout' %}">
-    <input class="button" class="content" type="submit" value="Log out">
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button class="button" class="content" type="submit" name="type" value="logout">Log out</button>
 </form>
+
+<br>
+{% include 'spends/homepage_ref.html' %}
 
 {% endblock %}

@@ -11,23 +11,21 @@
 
 {% block content %}
 <div class="control_panel">
-    <form id="prof_form" class="button_form">
-        <button formaction="{% url 'profile' %}">
+    <form action="{% url 'control_panel' %}" method="post" class="buttons_form">
+        {% csrf_token %}
+        <button type="submit" name="type" value="profile">
             <img src="{% static 'spends/images/profile_icon.png' %}" id="prof_img">
         </button>
-    </form>
-    <form id="showcat_form" class="button_form">
-        <button class="buttons" formaction="">
+        <button type="submit" class="buttons" name="type" value="shows_categories_form">
             Show categories
         </button>
-    </form>
-    <form id="sortcat_form" class="button_form">
-        <button class="buttons">
+        <button type="submit" class="buttons" name="type" value="create_category">
+            Create category
+        </button>
+        <button type="submit" class="buttons" name="type" value="sort_by_categories_form">
             Sort by categories
         </button>
-    </form>
-    <form id="add_form" class="button_form">
-        <button class="buttons" id="add_button" formaction="{% url 'form_add_spend' %}">
+        <button type="submit" class="buttons" name="type" value="add_spend">
             Add spend
         </button>
     </form>

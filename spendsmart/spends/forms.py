@@ -11,3 +11,8 @@ class AddSpendForm(forms.Form):
     category.widget.attrs.update({'class': 'input_field', 'id': 'catg_inp', 'autocomplete': 'off'})
 
 
+class CreateCategoryForm(forms.Form):
+    name = forms.CharField(max_length=25)
+
+    name.widget.attrs.update({'autocomplete': 'off'})
+
