@@ -66,6 +66,7 @@ def register(request):
         profile = Profile(user_id=user.id)
         profile.save()
 
+        request.session['user_id'] = Users.objects.get(name=username).id
         return redirect('main')
     elif request.method == 'GET':
         register_form = RegisterForm() 

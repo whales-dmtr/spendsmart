@@ -31,31 +31,59 @@
     </form>
 </div>
 <div class="spends">
+    {% if view_spends %}
     <table class="spend_table">
         <tr>
             <th>Description</th>
             <th>Amount</th>
-            <th>Date</th>
             <th>Category</th>
+            <th>Date</th>
             <th>Actions</th>
         </tr>
         {% for spend in all_spends %}
+        {% if spend.id == edited_field %}
+        <tr>
+            <form action="{% url 'spends_actions' %}" method="post">
+                {% for field in view_form %}
+                <td>{{ field }}</td>
+                {% endfor %}
+                <td>
+                    {% csrf_token %}
+                    <input type="hidden" name="spend_id" value="{{ spend.id }}">
+                    <button type="submit" name="type" value="save">Save</button>
+                    <button formnovalidate type="submit" name="type" value="esc">Esc</button>
+            </form>
+            </td>
+        </tr>
+        {% else %}
         <tr>
             <td>{{ spend.desc }}</td>
             <td>{{ spend.amount }}</td>
-            <td>{{ spend.date }}</td>
+            {% if spend.category == None %}
+            <td>-</td>
+            {% else %}
             <td>{{ spend.category }}</td>
+            {% endif %}
+            <td>{{ spend.date }}</td>
             <td>
-                <form action="">
-                    <input type="submit" value="Edit">
-                </form>
-                <form action="">
-                    <input type="submit" value="Delete">
+                <form action="{% url 'spends_actions' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="previous_desc" value="{{ spend.desc }}">
+                    <input type="hidden" name="previous_amount" value="{{ spend.amount }}">
+                    <input type="hidden" name="previous_category" value="{{ spend.category }}">
+                    <input type="hidden" name="previous_date" value="{{ spend.date }}">
+
+                    <input type="hidden" name="spend_id" value="{{ spend.id }}">
+                    <button type="submit" name="type" value="edit">Edit</button>
+                    <button type="submit" name="type" value="delete">Delete</button>
                 </form>
             </td>
         </tr>
+        {% endif %}
         {% endfor %}
     </table>
-</div>
+    {% else %}
+    <h3>You haven't got any spends</h3>
+    {% endif %}
 </div>
 {% endblock %}

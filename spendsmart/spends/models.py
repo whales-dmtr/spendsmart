@@ -15,7 +15,7 @@ class Spends(models.Model):
     user = models.ForeignKey(to=Users, on_delete=models.CASCADE)
     desc = models.CharField(max_length=50)
     amount = models.CharField(max_length=15)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
     category = models.ForeignKey(to=Categories, on_delete=models.SET_NULL, null=True)
 
 
