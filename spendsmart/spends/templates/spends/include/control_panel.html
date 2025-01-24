@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class="control_panel">
+    <form action="{% url 'control_panel' %}" method="post" class="buttons_form">
+        {% csrf_token %}
+        <button type="submit" name="type" value="profile">
+            <img src="{% static 'spends/images/profile_icon.png' %}" id="prof_img">
+        </button>
+        <button type="submit" class="buttons" name="type" value="show_categories">
+            Show categories
+        </button>
+        <button type="submit" class="buttons" name="type" value="create_category">
+            Create category
+        </button>
+        <button type="submit" class="buttons" name="type" value="sort_by_categories_form">
+            Sort by categories
+        </button>
+        <button type="submit" class="buttons" name="type" value="add_spend">
+            Add spend
+        </button>
+    </form>
+</div>
