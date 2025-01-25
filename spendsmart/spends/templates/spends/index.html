@@ -57,6 +57,8 @@
                     <input type="hidden" name="previous_date" value="{{ spend.date }}">
 
                     <input type="hidden" name="spend_id" value="{{ spend.id }}">
+                    <input type="hidden" name="category_id" value="{{ spend.category_id }}">
+
                     <button type="submit" name="type" value="edit">Edit</button>
                     <button type="submit" name="type" value="delete">Delete</button>
                 </form>
@@ -69,4 +71,12 @@
     <h3>You haven't got any spends</h3>
     {% endif %}
 </div>
+
+<div class="spend_stats">
+    <h3>Spends stats</h3>
+    {% for label, stat in stats %}
+    <p>{{ label }}: {{ stat }}</p>
+    {% endfor %}
+</div>
+
 {% endblock %}

@@ -1,6 +1,6 @@
 .spend_table {
 	border: 1px solid black;
-	width: 50%;
+	width: 100%;
 }
 
 .spend_table th,
@@ -32,4 +32,18 @@ td {
 .buttons_form {
 	display: flex;
 	gap: 10px;
+}
+
+.spends {
+	width: 60%;
+}
+
+.spend_stats {
+	position: absolute;
+	left: 61%;
+	width: 20%;
+	top: 5%;
+	height: 40%;
+	border: 1px solid black;
+	text-align: center;
 }

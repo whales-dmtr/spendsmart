@@ -9,14 +9,12 @@ class Categories(models.Model):
 
     def __str__(self):
         return str(self.name)
-
-    # def __repr__(self):
-    #     return str(self.name)
     
     def update_category_amount(self):
         category = Categories.objects.get(id=self.id)
-        if len(category.spends_set.all()) > 0:
-            amount_sum = category.spends_set.all().aggregate(Sum('amount'))['amount__sum']
+        spends = category.spends_set.all()  # all spends with this category
+        if len(spends) > 0:
+            amount_sum = spends.aggregate(Sum('amount'))['amount__sum']
             self.amount_sum = amount_sum
         else:
             self.amount_sum = 0  
