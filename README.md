@@ -1,1 +1,1 @@
-Application for traking your spends.
+Application for tracking your spends.
