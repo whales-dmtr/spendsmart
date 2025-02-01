@@ -1,9 +1,10 @@
 .spend_table {
 	border: 1px solid black;
-	width: 50%;
+	width: 100%;
 }
 
-.spend_table th, td{
+.spend_table th,
+td {
 	border: 1px solid black;
 	padding: 3px;
 	text-align: center;
@@ -14,24 +15,35 @@
 	height: 50px;
 }
 
+.buttons {
+	height: 50px;
+}
+
 .control_panel {
 	position: relative;
 	width: 50%;
 	height: 20%;
 	margin-bottom: 3%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
-.button_form {
-	display: inline-block;
-	vertical-align: middle;
+.buttons_form {
+	display: flex;
+	gap: 10px;
 }
 
-.buttons {
-	height: 50px;
+.spends {
+	width: 60%;
 }
 
-
-
-
-
-
+.spend_stats {
+	position: absolute;
+	left: 61%;
+	width: 20%;
+	top: 5%;
+	height: 40%;
+	border: 1px solid black;
+	text-align: center;
+}

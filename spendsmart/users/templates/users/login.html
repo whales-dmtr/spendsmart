@@ -1,34 +1,31 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Login</title>
-		<link rel="stylesheet" type="text/css" href="{% static 'users/css/login.css' %}">
-	</head>
-	<body>
-		<h2>Login</h2>
-		<form action="{% url 'login' %}" method="post">
-			{% csrf_token %}
 
-			{% for field in login_form %}
-			<label>Enter {{ field.label|lower }}: </label> <br>
-			{{ field }}
-			<br><br>
-			{% endfor %}
+{% block title %}
+<title>Login</title>
+{% endblock %}
+{% block links %}
+<link rel="stylesheet" type="text/css" href="{% static 'users/css/login.css' %}">
+{% endblock %}
 
-			<input type="submit" class="input_field" id="submit_inp" value="Submit">	
-			<br><br>
-		</form>
-		<form>
-			<label for="register_redirect_btn">You don't have an account?</label>
-			<button formaction="{% url 'register_form' %}" id="register_redirect_btn">Go to register page</button>
-		</form>
-		<br>
-		<p id="message">{{ message }}</p>
-</body>
-</html>
+{% block content %}
+<h2>Login</h2>
+<form action="{% url 'login' %}" method="post">
+	{% csrf_token %}
 
+	{% for field in login_form %}
+	<label>Enter {{ field.label|lower }}: </label> <br>
+	{{ field }}
+	<br><br>
+	{% endfor %}
 
+	<input type="submit" class="input_field" id="submit_inp" value="Submit">
+	<br><br>
+</form>
+<form>
+	<label for="register_redirect_btn">You don't have an account?</label>
+	<button formaction="{% url 'register' %}" id="register_redirect_btn">Go to register page</button>
+</form>
 
+{% endblock %}

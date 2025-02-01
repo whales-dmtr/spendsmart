@@ -1,65 +1,82 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}
+<title>Your spends</title>
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Your spends</title>
-	<link type="text/css" href="{% static 'spends/css/index.css' %}" rel="stylesheet">
-</head>
+{% block links %}
+<link type="text/css" href="{% static 'spends/css/index.css' %}" rel="stylesheet">
+{% endblock %}
 
-<body>
-    <div class="control_panel">
-        <form id="prof_form" class="button_form">
-				<button formaction="{% url 'login' %}">
-                <img src="{% static 'spends/images/profile_icon.png' %}" id="prof_img">
-            </button>
-        </form>
-		<form id="showcat_form" class="button_form">
-			<button class="buttons"	formaction="">
-				Show categories
-			</button>
-		</form>
-		<form id="sortcat_form" class="button_form">
-        	<button class="buttons">
-					Sort by categories
-			</button>
-		</form>
-        <form id="add_form" class="button_form">
-            <button class="buttons" id="add_button" formaction="{% url 'form_add_spend' %}">
-					Add spend
-			</button>
-        </form>
-    </div>
-    <div class="spends">
-		<table class="spend_table">
-			<tr>
-				<th>Description</th>
-				<th>Amount</th>
-				<th>Date</th>
-				<th>Category</th>
-				<th>Actions</th>
-			</tr>
-			{% for spend in all_spends %}
-			<tr>
-				<td>{{ spend.desc }}</td>	
-				<td>{{ spend.amount }}</td>	
-				<td>{{ spend.date }}</td>	
-				<td>{{ spend.category }}</td>	
-				<td>
-					<form action="">
-						<input type="submit" value="Edit">
-					</form>
-					<form action="">
-						<input type="submit" value="Delete">
-					</form>
-				</td>	
-			</tr>
-			{% endfor %}
-		</table>		
-    </div>
-    </div>
-</body>
+{% block content %}
 
-</html>
+{% include 'spends/include/control_panel.html' %}
+
+<div class="spends">
+    {% if view_spends %}
+    <table class="spend_table">
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for spend in all_spends %}
+        {% if spend.id == edited_field %}
+        <tr>
+            <form action="{% url 'spends_actions' %}" method="post">
+                {% for field in view_form %}
+                <td>{{ field }}</td>
+                {% endfor %}
+                <td>
+                    {% csrf_token %}
+                    <input type="hidden" name="spend_id" value="{{ spend.id }}">
+                    <button type="submit" name="type" value="save">Save</button>
+                    <button formnovalidate type="submit" name="type" value="esc">Esc</button>
+            </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td>{{ spend.desc }}</td>
+            <td>{{ spend.amount }}</td>
+            {% if spend.category == None %}
+            <td>-</td>
+            {% else %}
+            <td>{{ spend.category }}</td>
+            {% endif %}
+            <td>{{ spend.date }}</td>
+            <td>
+                <form action="{% url 'spends_actions' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="previous_desc" value="{{ spend.desc }}">
+                    <input type="hidden" name="previous_amount" value="{{ spend.amount }}">
+                    <input type="hidden" name="previous_category" value="{{ spend.category }}">
+                    <input type="hidden" name="previous_date" value="{{ spend.date }}">
+
+                    <input type="hidden" name="spend_id" value="{{ spend.id }}">
+                    <input type="hidden" name="category_id" value="{{ spend.category_id }}">
+
+                    <button type="submit" name="type" value="edit">Edit</button>
+                    <button type="submit" name="type" value="delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% else %}
+    <h3>You haven't got any spends</h3>
+    {% endif %}
+</div>
+
+<div class="spend_stats">
+    <h3>Spends stats</h3>
+    {% for label, stat in stats %}
+    <p>{{ label }}: {{ stat }}</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

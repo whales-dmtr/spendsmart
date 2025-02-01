@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Your categories</title>
+{% endblock %}
+
+{% block links %}
+<link type="text/css" href="{% static 'spends/css/all_categories.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+{% include 'spends/include/control_panel.html' %}
+
+<div class="categories">
+    {% if view_categories %}
+    <table class="category_table">
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Actions</th>
+        </tr>
+        {% for category in all_categories %}
+        {% if category.id == edited_category %}
+        <tr>
+            <form action="{% url 'categories_actions' %}" method="post">
+                {% for field in view_form %}
+                <td>{{ field }}</td>
+                {% endfor %}
+                <td>{{ category.amount_sum }}</td>
+                <td>
+                    {% csrf_token %}
+                    <input type="hidden" name="category_id" value="{{ category.id }}">
+                    <button type="submit" name="type" value="save">Save</button>
+                    <button formnovalidate type="submit" name="type" value="esc">Esc</button>
+            </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td>{{ category.name }}</td>
+            <td>{{ category.amount_sum }}</td>
+            <td>
+                <form action="{% url 'categories_actions' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="previous_name" value="{{ category.name }}">
+
+                    <input type="hidden" name="category_id" value="{{ category.id }}">
+                    <button type="submit" name="type" value="edit">Edit</button>
+                    <button type="submit" name="type" value="delete">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% else %}
+    <h3>You haven't got any categories</h3>
+    {% endif %}
+</div>
+
+<br>
+{% include 'spends/include/homepage.html' %}
+
+{% endblock %}

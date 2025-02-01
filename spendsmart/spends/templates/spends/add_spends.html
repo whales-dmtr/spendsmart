@@ -1,32 +1,33 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Add spend</title>
-		<link type="text/css" href="{% static 'spends/css/add_spend.css' %}" rel="stylesheet">
-	</head>
-	<body>
-		<h2>Menu of adding spend</h2> 
-		<form action="{% url 'add_spend' %}" method="post">
-			{% csrf_token %}
 
-			{% for field in view_form %}
-			<label>Enter {{ field.label|lower }}: </label> <br> 
-			<!--
-			class: input_field
-			id: [desc_inp, amount_inp, catg_inp
-			-->
-			{{ field }}
-			<br><br>
-			{% endfor %}
+{% block title %}
+<title>Add spend</title>
+{% endblock %}
 
-			<input type="submit" id="submit-btn" class="input_field" value="Submit">
-		</form>
-	</body>
-</html>
+{% block links %}
+<link type="text/css" href="{% static 'spends/css/add_spend.css' %}" rel="stylesheet">
+{% endblock %}
 
+{% block content %}
+<h2>Menu of adding spend</h2>
+<form action="{% url 'add_spend' %}" method="post">
+	{% csrf_token %}
 
+	{% for field in view_form %}
+	<label>Enter {{ field.label|lower }}: </label> <br>
+	<!--
+	class: input_field
+	id: [desc_inp, amount_inp, catg_inp
+	-->
+	{{ field }}
+	<br><br>
+	{% endfor %}
 
+	<input type="submit" value="Submit">
+</form>
 
+<br>
+{% include 'spends/include/homepage.html' %}
 
+{% endblock %}

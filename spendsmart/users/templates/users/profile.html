@@ -1,11 +1,58 @@
-Hello, {{ username }}!
+{% extends 'base.html' %}
+{% load static %}
 
 
+{% block title %}
+<title>Profile</title>
+{% endblock %}
+{% block links %}
+<link rel="stylesheet" type="text/css" href="{% static 'users/css/profile.css' %}">
+{% endblock %}
 
+{% block content %}
+<h1>Your profile, {{ welcome_name }}</h1>
+<br>
 
+{% for field in fields_data %}
+{% if edit_form != None and edited_field == field.2 %}
+<div class="field">
+    <br>
+    <form method="post" action="{% url 'edit_profile' %}">
+        {{ edit_form.field }}
+        {% csrf_token %}
+        <input type="hidden" name="name" value="{{ field.2 }}" autofocus>
+        <button type="submit" name="type" value="save" class="button">Save</button>
+        <button formnovalidate type="submit" name="type" value="esc" class="button">Esc</button>
+    </form>
+</div>
+{% elif field.2 == 'desc' %}
+<div class="field">
+    <p class="content" class="desc"><b>{{ field.0 }}: </b></p>
+    <p class="desc">{{ field.1|linebreaks }}</p>
+    <form method="post" action="{% url 'profile' %}">
+        {% csrf_token %}
+        <button class="button" name="edit_field" value="{{ field.2 }}">Edit</button> <br>
+    </form>
+</div>
+{% else %}
+<div class="field">
+    <p class="content"><b>{{ field.0 }}:</b> {{ field.1 }}</p>
+    <form method="post" action="{% url 'profile' %}">
+        {% csrf_token %}
+        <button class="button" name="edit_field" value="{{ field.2 }}">Edit</button>
+        <br>
+    </form>
+</div>
+{% endif %}
+{% endfor %}
+<br><br>
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button class="button" class="content" type="submit" name="type" value="logout">Log out</button>
+</form>
 
+<br>
 
+{% include 'spends/include/homepage.html' %}
 
-
-
-
+{% endblock %}
