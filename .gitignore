@@ -1,24 +1,2 @@
-*.pyc		# system python files
-.DS_Store	# system macOS file
-
-
-
-
-
-
-
-
-
-
-
-*.pyc		# system python files
-.DS_Store	# system macOS file
-
-
-
-
-
-
-
-
-
+*/__pycache__
+.DS_Store	
