@@ -1,0 +1,7 @@
+README.md
+pyproject.toml
+spendsmart.egg-info/PKG-INFO
+spendsmart.egg-info/SOURCES.txt
+spendsmart.egg-info/dependency_links.txt
+spendsmart.egg-info/requires.txt
+spendsmart.egg-info/top_level.txt
