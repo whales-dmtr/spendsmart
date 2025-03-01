@@ -1,4 +1,4 @@
-#!/Users/dima/Documents/spendsmart/venvspendsmart/bin/python3.12
+#!/Users/dima/Documents/programming/spendsmart/venvspendsmart/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys

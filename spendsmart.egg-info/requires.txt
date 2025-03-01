@@ -1,0 +1,13 @@
+art==5.9
+asgiref==3.8.1
+click==8.1.8
+colorama==0.4.6
+Django==4.2
+markdown-it-py==3.0.0
+mdurl==0.1.2
+numpy==2.0.0
+psycopg2==2.9.9
+Pygments==2.19.1
+rich==13.9.4
+setuptools==75.6.0
+sqlparse==0.5.1
