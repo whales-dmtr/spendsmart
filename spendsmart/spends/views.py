@@ -6,7 +6,11 @@ from .forms import AddSpendForm, CreateCategoryForm, EditCategoryForm, EditSpend
 from datetime import date, timedelta
 from django.db.models import Sum
 
-def generate_stats(spends):
+def view_all_spends(request):
+   if 'user_id' in request.session:
+        user_id = Users.objects.get(id=request.session['user_id'])
+        spends = Spends.objects.filter(user_id=user_id).order_by('-date')
+
         today_amount = spends.filter(date=date.today()).aggregate(Sum('amount'))['amount__sum']
 
         tomorrow = date.today() - timedelta(1)
@@ -34,15 +38,7 @@ def generate_stats(spends):
             'Last month': month_amount if month_amount != None else 0,
         }
 
-        return stats
-
-
-def view_all_spends(request):
-   if 'user_id' in request.session:
-        user_id = Users.objects.get(id=request.session['user_id'])
-        spends = Spends.objects.filter(user_id=user_id).order_by('-date')
-
-        stats = generate_stats(spends)
+        print(stats)
 
         return render(request, 'spends/index.html', {
             'view_spends': spends.exists(),
@@ -53,15 +49,11 @@ def view_all_spends(request):
        return redirect('login')
 
 
-def add_spend(request):
-    if request.method == 'POST':
-        user_id = request.session['user_id']
-        desc = request.POST['description']
-        amount = request.POST['amount']
-        category = request.POST['category']
-
-        date = f'{request.POST['date_year']}-{request.POST['date_month']}-{request.POST['date_day']}'
-
+def add_spend(HttpRequest):
+    if HttpRequest.method == 'POST':
+        desc = HttpRequest.POST['description']
+        amount = HttpRequest.POST['amount']
+        category = HttpRequest.POST['category']
         new_spend = Spends(
             user_id=user_id,
             desc=desc,
@@ -107,6 +99,8 @@ def control_panel(request):
             return redirect('all_categories')
         elif request.POST['type'] == 'create_category':
             return redirect('create_category')
+        elif request.POST['type'] == 'sort_by_categories_form':
+            pass
         elif request.POST['type'] == 'add_spend':
             return redirect('add_spend')
 
@@ -128,13 +122,10 @@ def spends_actions(request):
 
             form = EditSpendForm(previous_data, request.session['user_id'])
 
-            stats = generate_stats(spends)
-
             return render(request, 'spends/index.html', context={'view_form': form, 
                                                                  'edited_field': int(spend_id), 
                                                                  'view_spends': True,
                                                                  'all_spends': spends,
-                                                                 'stats': stats.items(),
                                                                  })
         elif request.POST['type'] == 'delete':
             Spends.objects.filter(id=spend_id).delete()

@@ -47,3 +47,17 @@ td {
 	border: 1px solid black;
 	text-align: center;
 }
+
+.spends {
+	width: 60%;
+}
+
+.spend_stats {
+	position: absolute;
+	left: 61%;
+	width: 20%;
+	top: 5%;
+	height: 40%;
+	border: 1px solid black;
+	text-align: center;
+}
