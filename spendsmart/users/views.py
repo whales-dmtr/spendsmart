@@ -1,9 +1,11 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
 from .forms import (EmailEditForm, LoginForm, RegisterForm, EditFieldForm, PasswordEditForm, 
                     BirthdayEditForm, DescEditForm)
 from .models import Users, Profile
+import ast
 
 
 def is_valid(username, password):
@@ -18,6 +20,14 @@ def is_valid(username, password):
             return False
     else:
         return False
+
+
+def is_valid_endpoint(request):
+    if request.method == 'GET':
+        # take parameters from the HTTP request body
+        # and convert their to dict
+        body = ast.literal_eval(str(request.body)[2:-1])  
+        return JsonResponse(body)
 
 
 def login(request):
